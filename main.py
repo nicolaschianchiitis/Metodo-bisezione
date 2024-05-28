@@ -1,9 +1,9 @@
 import sympy
 import re
 import turtle as t
+import math
 from bisection import *
 from theorem import *
-from chart import *
 
 t.bgcolor("black")
 t.title("Metodo di bisezione")
@@ -30,7 +30,9 @@ def to_interval_bounds(stringa):
     stringa = stringa.strip()
     if re.search(r"-?\d+\.?(\d+)*;-?\d+\.?(\d+)*", stringa) is not None:
         estremi = stringa.split(";")
-        return float(estremi[0]), float(estremi[1])
+        a = estremi[0]
+        b = estremi[1]
+        return float(a), float(b)
     else:
         return None
 
@@ -38,14 +40,14 @@ def to_interval_bounds(stringa):
 while pgm_in_esecuzione:
     # Funzione SymPy
     input_funzione = to_math_function(t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F))
-    print(input_funzione)
+    # print(input_funzione)
     # Tupla (a, b) ==> (float, float)
     input_intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
     while input_intervallo is None:
         input_intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
-    print(f"Intervallo [{input_intervallo[0]}; {input_intervallo[1]}]")
+    # print(f"Intervallo [{input_intervallo[0]}; {input_intervallo[1]}]")
 
     # Test
-    print(is_continuous(input_funzione, input_intervallo[0], input_intervallo[1], sympy.symbols('x')))
+    # print(is_continuous(input_funzione, input_intervallo[0], input_intervallo[1], sympy.symbols('x')))
 
 t.mainloop()

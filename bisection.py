@@ -1,3 +1,5 @@
+import turtle
+
 from numpy import sign, abs
 
 
@@ -9,8 +11,8 @@ def f_bisection(f, a, b, tol):
 
     # check if a and b bound a root
     if sign(f(a)) == sign(f(b)):
-        raise Exception(
-            "The scalars a and b do not bound a root")
+        turtle.textinput("Avviso", "La funzione non si annulla nell'intervallo indicato.\n"
+                                   "Premi su uno dei tasti qua sotto per continuare.")
 
     # get midpoint
     m = (a + b) / 2
