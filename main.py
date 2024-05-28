@@ -8,10 +8,8 @@ import turtle as t
 
 TITOLO_INPUT_F = "Inserimento funzione"
 PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimate attraverso il metodo di bisezione."
-                  f"\nLegenda simboli principali:\n+, -, *, /, ^, =, !=\nVariabile dipendente: x\n"
-                  f"Variabile indipendente: y, da NON indicare nell'input\nI numeri decimali vanno scritti con il"
-                  f"punto (.)\nNota: per scrivere, ad esempio, '2x', bisogna indicare '2*x', altrimenti il"
-                  f"programma non considera valido l'input.\n")
+                  f"\nLegenda simboli principali:\n+, -, *, /, ^, =, !=\nVariabile dipendente: x\nVariabile "
+                  f"indipendente: y, da NON indicare nell'input\nI numeri decimali vanno scritti con il punto (.)")
 TITOLO_INPUT_INTERVALLO = "Inserimento intervallo"
 PROMPT_INPUT_INTERVALLO = "Digita l'intervallo (limitato chiuso) nel formato a;b."
 
@@ -44,5 +42,8 @@ while pgm_in_esecuzione:
     while input_intervallo is None:
         input_intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
     print(f"Intervallo [{input_intervallo[0]}; {input_intervallo[1]}]")
+
+    # Test
+    print(is_continuous(input_funzione, input_intervallo[0], input_intervallo[1], sympy.symbols('x')))
 
 t.mainloop()
