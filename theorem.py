@@ -1,11 +1,11 @@
 import numpy as np
-from sympy import Symbol, Interval
+from sympy import Interval, lambdify
 from sympy.calculus.util import continuous_domain
 
 
-def is_valid(f, a, b):
-    x = Symbol("x")
-    if is_continuous(f, x, a, b) and np.sign(f(a)) != np.sign(f(b)):
+def is_valid(f, a, b, symbol):
+    f_lambda = lambdify(symbol, f)
+    if is_continuous(f, symbol, a, b) and np.sign(f_lambda(a)) != np.sign(f_lambda(b)):
         return True
     else:
         return False
@@ -17,9 +17,3 @@ def is_continuous(f, a, b, symbol):
         return True
     else:
         return False
-    # dominio = continuous_domain(f, symbol, Interval(a, b))
-    # print(dominio)
-    # return True if dominio.contains(a) and dominio.contains(b) else False
-
-
-

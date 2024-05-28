@@ -1,6 +1,6 @@
-import turtle
-
 from numpy import sign, abs
+from sympy import Interval, lambdify, symbols
+from sympy.calculus.util import continuous_domain
 
 
 def f_bisection(f, a, b, tol):
@@ -10,21 +10,22 @@ def f_bisection(f, a, b, tol):
     # between a and b Recursive implementation
 
     # check if a and b bound a root
-    if sign(f(a)) == sign(f(b)):
-        turtle.textinput("Avviso", "La funzione non si annulla nell'intervallo indicato.\n"
-                                   "Premi su uno dei tasti qua sotto per continuare.")
+    f_lambda = lambdify(symbols('x'), f)
+    if sign(f_lambda(a)) == sign(f_lambda(b)) and continuous_domain(f, symbols('x'), Interval(a, b)) != Interval(a, b):
+        return None
 
     # get midpoint
     m = (a + b) / 2
+    m_abs = abs(m)
 
-    if abs(f(m)) < tol:
+    if f_lambda(m_abs) < tol:
         # stopping condition, report m as root
         return m
-    elif sign(f(a)) == sign(f(m)):
+    elif sign(f_lambda(a)) == sign(f_lambda(m)):
         # case where m is an improvement on "a".
         # Make recursive call with a = m
         return f_bisection(f, m, b, tol)
-    elif sign(f(b)) == sign(f(m)):
+    elif sign(f_lambda(b)) == sign(f_lambda(m)):
         # case where m is an improvement on "b".
         # Make recursive call with b = m
         return f_bisection(f, a, m, tol)
