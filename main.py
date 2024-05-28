@@ -1,10 +1,12 @@
 import sympy
 import re
-
+import turtle as t
 from bisection import *
 from theorem import *
 from chart import *
-import turtle as t
+
+t.bgcolor("black")
+t.title("Metodo di bisezione")
 
 TITOLO_INPUT_F = "Inserimento funzione"
 PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimate attraverso il metodo di bisezione."
