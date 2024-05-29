@@ -1,31 +1,33 @@
-from numpy import sign, abs
-from sympy import Interval, lambdify, symbols
-from sympy.calculus.util import continuous_domain
+import turtle
+
+import numpy as np
+from sympy import lambdify, symbols
 
 
 def f_bisection(f, a, b, tol):
-    # approximates a root, R, of f bounded
-    # by a and b to within tolerance
-    # | f(m) | < tol with m the midpoint
+    # approximates a root, R, of f bounded 
+    # by a and b to within tolerance 
+    # | f(m) | < tol with m the midpoint 
     # between a and b Recursive implementation
 
-    # check if a and b bound a root
+    # Make the function lambda
     f_lambda = lambdify(symbols('x'), f)
-    if sign(f_lambda(a)) == sign(f_lambda(b)) and continuous_domain(f, symbols('x'), Interval(a, b)) != Interval(a, b):
+
+    # check if a and b bound a root
+    if np.sign(f_lambda(a)) == np.sign(f_lambda(b)):
         return None
 
     # get midpoint
     m = (a + b) / 2
-    m_abs = abs(m)
 
-    if f_lambda(m_abs) < tol:
+    if np.abs(f_lambda(m)) < tol:
         # stopping condition, report m as root
         return m
-    elif sign(f_lambda(a)) == sign(f_lambda(m)):
-        # case where m is an improvement on "a".
+    elif np.sign(f_lambda(a)) == np.sign(f_lambda(m)):
+        # case where m is an improvement on a. 
         # Make recursive call with a = m
         return f_bisection(f, m, b, tol)
-    elif sign(f_lambda(b)) == sign(f_lambda(m)):
-        # case where m is an improvement on "b".
+    elif np.sign(f_lambda(b)) == np.sign(f_lambda(m)):
+        # case where m is an improvement on b. 
         # Make recursive call with b = m
         return f_bisection(f, a, m, tol)

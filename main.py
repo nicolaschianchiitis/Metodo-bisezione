@@ -1,4 +1,7 @@
+import turtle
+
 import sympy as sp
+from sympy.calculus.util import continuous_domain, Interval
 import numpy as np
 import re
 import turtle as t
@@ -8,6 +11,9 @@ from bisection import *
 
 t.bgcolor("black")
 t.title("Metodo di bisezione")
+t.color("white")
+t.hideturtle()
+t.penup()
 
 TITOLO_INPUT_F = "Inserimento funzione"
 PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimate attraverso il metodo di bisezione."
@@ -16,7 +22,7 @@ PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimat
 TITOLO_INPUT_INTERVALLO = "Inserimento intervallo"
 PROMPT_INPUT_INTERVALLO = "Digita l'intervallo (limitato chiuso) nel formato a;b."
 TITOLO_INPUT_TOLLERANZA = "Inserimento tolleranza"
-PROMPT_INPUT_TOLLERANZA = "Digita la tolleranza (es. 0.001 per 3 cifre decimali)\nMinimo numero di cifre: 1."
+PROMPT_INPUT_TOLLERANZA = "Digita la tolleranza (es. 0.001)"
 
 pgm_in_esecuzione = True
 
@@ -46,9 +52,9 @@ def draw_f_chart(function, soluzione_approssimata):
     plt.xlabel("x")
     plt.ylabel("y = f(x)")
     plt.grid(True)
-    x_min = -100
-    x_max = 100
-    plt.ylim(-100, 100)
+    x_min = -50
+    x_max = 50
+    plt.ylim(-50, 50)
     # Disegno la funzione intera
     x_values = np.linspace(x_min, x_max, 400)
     y_values = function(x_values)
@@ -64,27 +70,24 @@ while pgm_in_esecuzione:
     x = sp.symbols('x')
     # Funzione SymPy
     funzione = to_math_function(t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F))
-    # print(funzione)
     # Tupla (a, b) ==> (float, float)
     intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
     while intervallo is None:
         intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
-    # print(f"Intervallo [{intervallo[0]}; {intervallo[1]}]")
     tolleranza = t.textinput(TITOLO_INPUT_TOLLERANZA, PROMPT_INPUT_TOLLERANZA)
     while "0" not in tolleranza and "1" not in tolleranza and "." not in tolleranza:
         tolleranza = t.textinput(TITOLO_INPUT_TOLLERANZA, PROMPT_INPUT_TOLLERANZA)
-    # print(tolleranza)
     soluzione = f_bisection(funzione, intervallo[0], intervallo[1], float(tolleranza))
-    if soluzione is None:
+    intervallo_ab = Interval(intervallo[0], intervallo[1])
+    turtle.clear()
+    if soluzione is None or continuous_domain(funzione, x, intervallo_ab) != intervallo_ab:
+        t.goto(-250, -250)
+        t.write(f"La funzione non ammette radici nell'intervallo scelto!", font=("HelveticaNeue", 22, "normal"))
         continue
     else:
-        print(soluzione)
+        t.goto(-200, -290)
+        t.write(f"Soluzione: {soluzione}",
+                font=("HelveticaNeue", 22, "normal"))
         draw_f_chart(sp.lambdify(x, funzione), soluzione)
-
-    # Test
-    # print(f_bisection(sp.lambdify(x, funzione), intervallo[0], intervallo[1], float(tolleranza)))
-    # if is_valid(funzione, intervallo[0], intervallo[1], x):
-    #     draw_f_chart(sp.lambdify(x, funzione), f_bisection(sp.lambdify(x, funzione),
-    #                                                           intervallo[0], intervallo[1], float(tolleranza)))
 
 t.mainloop()
