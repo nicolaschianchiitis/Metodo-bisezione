@@ -1,5 +1,3 @@
-import turtle
-
 import numpy as np
 from sympy import lambdify, symbols
 

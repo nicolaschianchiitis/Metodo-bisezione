@@ -2,10 +2,7 @@ import turtle as t
 import matplotlib.pyplot
 import sympy as sp
 from sympy.calculus.util import continuous_domain, Interval
-import numpy as np
 import re
-import math
-import matplotlib.pyplot as plt
 from bisection import *
 
 
@@ -41,6 +38,9 @@ def to_math_function(stringa):
 def to_interval_bounds(stringa):
     stringa = stringa.strip()
     if re.search(r"-?\d+\.?(\d+)*;-?\d+\.?(\d+)*", stringa) is not None:
+        for character in stringa:
+            if character not in "0123456789.;-/()":
+                stringa = stringa.replace(character, "")
         estremi = stringa.split(";")
         a = estremi[0]
         b = estremi[1]
