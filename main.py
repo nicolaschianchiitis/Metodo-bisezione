@@ -17,7 +17,8 @@ pgm_window.penup()
 TITOLO_INPUT_F = "Inserimento funzione"
 PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimate attraverso il metodo di bisezione."
                   f"\nLegenda simboli principali:\n+, -, *, /, ^, =, !=\nVariabile dipendente: x\nVariabile "
-                  f"indipendente: y, da NON indicare nell'input\nI numeri decimali vanno scritti con il punto (.)")
+                  f"indipendente: y, da NON indicare nell'input\nI numeri decimali vanno scritti con il punto (.)\n"
+                  f"Le frazioni vanno scritte tra parentesi, per esempio (2/3).")
 TITOLO_INPUT_INTERVALLO = "Inserimento intervallo"
 PROMPT_INPUT_INTERVALLO = "Digita l'intervallo (limitato chiuso) nel formato a;b."
 TITOLO_INPUT_TOLLERANZA = "Inserimento tolleranza"
