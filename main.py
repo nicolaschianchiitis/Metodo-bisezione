@@ -1,11 +1,13 @@
 import turtle as t
+import matplotlib
+import math
 import matplotlib.pyplot
 import sympy as sp
 from sympy.calculus.util import continuous_domain, Interval
 import re
 from bisection import *
 
-
+matplotlib.use('TkAgg')  # Abilita i grafici
 chart = matplotlib.pyplot
 pgm_window = t.Turtle()
 t.bgcolor("black")

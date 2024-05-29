@@ -1,0 +1,3 @@
+([('Metodo-bisezione',
+   '/Users/niky/Documents/Scuola/Informatica/Sorgenti/Python/Metodo-bisezione/dist/Metodo-bisezione',
+   'EXECUTABLE')],)

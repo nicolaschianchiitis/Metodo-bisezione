@@ -1,0 +1,2 @@
+Appena si apre il programma, lasciarlo caricare per una manciata di secondi.
+Deve inizializzare tutto ciò che gli serve.
