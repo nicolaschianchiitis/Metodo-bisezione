@@ -1,2 +1,6 @@
+Gli eseguibili si trovano in dist/
+
+Scegliere la cartella in base al proprio sistema operativo e cliccare sull'icona col floppy disk e il serpentello.
+
 Appena si apre il programma, lasciarlo caricare per una manciata di secondi.
 Deve inizializzare tutto ciò che gli serve.
