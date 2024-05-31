@@ -54,7 +54,8 @@ def to_interval_bounds(stringa):
 
 def draw_f_chart(function, soluzione_approssimata):
     chart.clf()  # Reset grafico
-    chart.title(f"Grafico funzione\nSoluzione approssimata: {soluzione_approssimata}")
+    chart.title(f"Soluzione approssimata: {soluzione_approssimata[0]}\n"
+                f"Numero di iterazioni: {soluzione_approssimata[1]}")
     chart.xlabel("x")
     chart.ylabel("y = f(x)")
     chart.grid(True)
@@ -66,8 +67,8 @@ def draw_f_chart(function, soluzione_approssimata):
     y_values = function(x_values)
     chart.plot(x_values, y_values, linewidth=2.0, linestyle="-", color="b")
     # Soluzione approssimata
-    x_appr = soluzione_approssimata
-    y_appr = function(soluzione_approssimata)
+    x_appr = soluzione_approssimata[0]
+    y_appr = function(x_appr)
     chart.plot(x_appr, y_appr, 'ro', linewidth=2.0)
     chart.show()
 
@@ -87,10 +88,10 @@ while pgm_in_esecuzione:
         if ch not in "01.":
             tolleranza = tolleranza.replace(ch, "")
     if intervallo[1] < intervallo[0]:
-        soluzione = f_bisection(funzione, intervallo[1], intervallo[0], float(tolleranza))
+        soluzione = f_bisection(funzione, intervallo[1], intervallo[0], float(tolleranza), 0)
         intervallo_ab = Interval(intervallo[1], intervallo[0])
     else:
-        soluzione = f_bisection(funzione, intervallo[1], intervallo[0], float(tolleranza))
+        soluzione = f_bisection(funzione, intervallo[1], intervallo[0], float(tolleranza), 0)
         intervallo_ab = Interval(intervallo[1], intervallo[0])
     pgm_window.clear()
     if soluzione is None or continuous_domain(funzione, x, intervallo_ab) != intervallo_ab:
@@ -100,7 +101,8 @@ while pgm_in_esecuzione:
         continue
     else:
         pgm_window.goto(-200, -290)
-        pgm_window.write(f"Soluzione approssimata: {soluzione}",
+        pgm_window.write(f"Soluzione approssimata: {soluzione[0]}\n"
+                         f"Numero di iterazioni: {soluzione[1]}",
                          font=("HelveticaNeue", 22, "normal"))
         draw_f_chart(sp.lambdify(x, funzione), soluzione)
 
