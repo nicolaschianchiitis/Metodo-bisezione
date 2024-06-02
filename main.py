@@ -1,5 +1,6 @@
 import turtle as t
 import matplotlib
+import math
 import matplotlib.pyplot
 import sympy as sp
 from sympy.calculus.util import continuous_domain, Interval
@@ -33,6 +34,8 @@ def to_math_function(stringa):
     f = stringa.lower().strip()
     f = re.sub(r"(\d+)([a-z])", r"\1*\2", f)
     f = re.sub(r"\((\d+)/(\d+)\)([a-z])", r"(\1/\2)*\3", f)
+    if "/0" in f:
+        return None
     funzione_matematica = sp.sympify(f, convert_xor=True)
     return funzione_matematica
 
@@ -81,6 +84,9 @@ while pgm_in_esecuzione:
     # Funzione SymPy
     f_stringa = t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F)
     funzione = to_math_function(f_stringa)
+    while funzione is None:
+        f_stringa = t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F)
+        funzione = to_math_function(f_stringa)
     # Tupla (a, b) ==> (float, float)
     intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
     while intervallo is None:
