@@ -1,4 +1,5 @@
 import turtle as t
+import matplotlib
 import matplotlib.pyplot
 import sympy as sp
 from sympy.calculus.util import continuous_domain, Interval
