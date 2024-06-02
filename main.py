@@ -1,6 +1,4 @@
 import turtle as t
-import matplotlib
-import math
 import matplotlib.pyplot
 import sympy as sp
 from sympy.calculus.util import continuous_domain, Interval
@@ -10,9 +8,9 @@ from bisection import *
 matplotlib.use('TkAgg')  # Abilita i grafici
 chart = matplotlib.pyplot
 pgm_window = t.Turtle()
-t.bgcolor("black")
+t.bgcolor("black")  # Sfondo finestra
 t.title("Metodo di bisezione")
-pgm_window.color("white")
+pgm_window.color("red")  # Colore penna
 pgm_window.hideturtle()
 pgm_window.penup()
 
@@ -52,10 +50,9 @@ def to_interval_bounds(stringa):
         return None
 
 
-def draw_f_chart(function, soluzione_approssimata):
+def draw_f_chart(function, soluzione_approssimata, f_string):
     chart.clf()  # Reset grafico
-    chart.title(f"Soluzione approssimata: {soluzione_approssimata[0]}\n"
-                f"Numero di iterazioni: {soluzione_approssimata[1]}")
+    chart.title(f"Grafico funzione\n")
     chart.xlabel("x")
     chart.ylabel("y = f(x)")
     chart.grid(True)
@@ -65,18 +62,24 @@ def draw_f_chart(function, soluzione_approssimata):
     # Disegno la funzione intera
     x_values = np.linspace(x_min, x_max, 400)
     y_values = function(x_values)
-    chart.plot(x_values, y_values, linewidth=2.0, linestyle="-", color="b")
+    chart.plot(x_values, y_values, linewidth=2.0, linestyle="-", color="b", label=f"y = {f_string}")
     # Soluzione approssimata
     x_appr = soluzione_approssimata[0]
     y_appr = function(x_appr)
-    chart.plot(x_appr, y_appr, 'ro', linewidth=2.0)
+    parola_iterazioni = "iterazioni"
+    if soluzione_approssimata[1] == 1:
+        parola_iterazioni = "iterazione"
+    chart.plot(x_appr, y_appr, 'ro', linewidth=2.0, label=f"{soluzione_approssimata[0]} ==> "
+                                                          f"{soluzione_approssimata[1]} {parola_iterazioni}")
+    chart.legend()
     chart.show()
 
 
 while pgm_in_esecuzione:
     x = sp.symbols('x')
     # Funzione SymPy
-    funzione = to_math_function(t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F))
+    f_stringa = t.textinput(TITOLO_INPUT_F, PROMPT_INPUT_F)
+    funzione = to_math_function(f_stringa)
     # Tupla (a, b) ==> (float, float)
     intervallo = to_interval_bounds(t.textinput(TITOLO_INPUT_INTERVALLO, PROMPT_INPUT_INTERVALLO))
     while intervallo is None:
@@ -95,16 +98,12 @@ while pgm_in_esecuzione:
         intervallo_ab = Interval(intervallo[1], intervallo[0])
     pgm_window.clear()
     if soluzione is None or continuous_domain(funzione, x, intervallo_ab) != intervallo_ab:
-        pgm_window.goto(-250, -250)
+        pgm_window.goto(-320, -250)
         pgm_window.write(f"La funzione non ammette radici nell'intervallo scelto!",
                          font=("HelveticaNeue", 22, "normal"))
         continue
     else:
-        pgm_window.goto(-200, -290)
-        pgm_window.write(f"Soluzione approssimata: {soluzione[0]}\n"
-                         f"Numero di iterazioni: {soluzione[1]}",
-                         font=("HelveticaNeue", 22, "normal"))
-        draw_f_chart(sp.lambdify(x, funzione), soluzione)
+        draw_f_chart(sp.lambdify(x, funzione), soluzione, f_stringa)
 
 t.mainloop()
 
