@@ -1,5 +1,5 @@
 import turtle as t
-import matplotlib
+import matplotlib as mpl
 import math
 import matplotlib.pyplot
 import sympy as sp
@@ -7,7 +7,7 @@ from sympy.calculus.util import continuous_domain, Interval
 import re
 from bisection import *
 
-matplotlib.use('TkAgg')  # Abilita i grafici
+mpl.use('TkAgg')  # Abilita i grafici
 chart = matplotlib.pyplot
 pgm_window = t.Turtle()
 t.bgcolor("black")  # Sfondo finestra
@@ -20,7 +20,8 @@ TITOLO_INPUT_F = "Inserimento funzione"
 PROMPT_INPUT_F = (f"Digita la funzione di cui vuoi trovare le radici approssimate attraverso il metodo di bisezione."
                   f"\nLegenda simboli principali:\n+, -, *, /, ^, =, !=\nVariabile dipendente: x\nVariabile "
                   f"indipendente: y, da NON indicare nell'input\nI numeri decimali vanno scritti con il punto (.)\n"
-                  f"Le frazioni vanno scritte tra parentesi, per esempio (2/3).")
+                  f"Le frazioni vanno scritte tra parentesi, per esempio (2/3).\n"
+                  f"Sono anche supportati i simboli: e, π.")
 TITOLO_INPUT_INTERVALLO = "Inserimento intervallo"
 PROMPT_INPUT_INTERVALLO = "Digita l'intervallo (limitato chiuso) nel formato a;b."
 TITOLO_INPUT_TOLLERANZA = "Inserimento tolleranza"
@@ -34,6 +35,8 @@ def to_math_function(stringa):
     f = stringa.lower().strip()
     f = re.sub(r"(\d+)([a-z])", r"\1*\2", f)
     f = re.sub(r"\((\d+)/(\d+)\)([a-z])", r"(\1/\2)*\3", f)
+    f = f.replace("π", f"{math.pi}")
+    f = f.replace("e", f"{math.e}")
     if "/0" in f:
         return None
     funzione_matematica = sp.sympify(f, convert_xor=True)
@@ -44,8 +47,12 @@ def to_interval_bounds(stringa):
     stringa = stringa.strip()
     if re.search(r"-?\d+\.?(\d+)*;-?\d+\.?(\d+)*", stringa) is not None:
         for character in stringa:
-            if character not in "0123456789.;-/()":
+            if character not in "0123456789.;-/()πe":
                 stringa = stringa.replace(character, "")
+            if character == "π":
+                stringa = stringa.replace(character, math.pi)
+            if character == "e":
+                stringa = stringa.replace(character, math.e)
         estremi = stringa.split(";")
         a = estremi[0]
         b = estremi[1]
@@ -60,9 +67,9 @@ def draw_f_chart(function, soluzione_approssimata, f_string):
     chart.xlabel("x")
     chart.ylabel("y = f(x)")
     chart.grid(True)
-    x_min = -50
-    x_max = 50
-    chart.ylim(-50, 50)
+    x_min = -25
+    x_max = 25
+    chart.ylim(-25, 25)
     # Disegno la funzione intera
     x_values = np.linspace(x_min, x_max, 400)
     y_values = function(x_values)
